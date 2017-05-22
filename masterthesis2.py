@@ -3,16 +3,17 @@ import csv
 
 consumerkey = "SYvzgBXUzR3ikkbyKFbcc2Xil"
 
-consumersecret = "slxu8jP9cvT4AILDF3jijEkwk2uMqFUkhn9PPv2rAqqlerLuTE"
-
-
-
-
+tokenkey=""
 
 Token=csv.reader(open("token.csv","r"))
-for line in Token
+for line in Token:
+    print((line.strip("[")))
+    tokenkey= str(line)
 
-twitter = Twython(consumerkey, consumersecret,  oauth_version=2)
-ACCESS_TOKEN = twitter.obtain_access_token()
 
-print(ACCESS_TOKEN)
+twitter = Twython(consumerkey, access_token=tokenkey)
+
+results= twitter.search(q='Theresa May', result_type='popular')
+
+for line in results:
+    print(line)
