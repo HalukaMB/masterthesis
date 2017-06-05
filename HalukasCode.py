@@ -28,7 +28,7 @@ class listener(StreamListener):
 
     def on_data(self, data):
 
-        saveFile = io.open('raw_tweets.json', 'a', encoding='utf-8')
+        saveFile = io.open('JeremyTheresa_tweets.json', 'a', encoding='utf-8')
 
 
         while (time.time() - self.time) < self.limit:
@@ -45,7 +45,7 @@ class listener(StreamListener):
         				time.sleep(5)
         				pass
 
-        saveFile = io.open('raw_tweets.json', 'w', encoding='utf-8')
+        saveFile = io.open('JeremyTheresa_tweets.json', 'w', encoding='utf-8')
         saveFile.write(u'[\n')
         saveFile.write(','.join(self.tweet_data))
         saveFile.write(u'\n]')
@@ -65,7 +65,7 @@ class listener(StreamListener):
 
 
 #Beginning of the specific code
-keyword_list = ['Theresa May'] #track list
+keyword_list = ['Theresa May', 'Jeremy Corbyn'] #track list
 
 start_time=time.time()
 auth = OAuthHandler(ckey, consumer_secret) #OAuth object
