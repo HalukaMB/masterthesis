@@ -21,20 +21,37 @@ access_token_secret = 'tAdBBmW16j2nTwBMMPT8ZlgqGUmgzR9SRtwbDRkUDiXZL'
 #Listener Class Override
 class listener(StreamListener):
 
-    def __init__(self):
-        self.count = 0
+    def __init__(self, start_time, time_limit):
+        self.time = start_time
+        self.limit= time_limit
+        self.tweet_data = []
 
     def on_data(self, data):
 
         saveFile = io.open('raw_tweets.json', 'a', encoding='utf-8')
-        saveFile.write(data)
-        self.count += 1
-        print(self.count)
-        if self.count>50:
-            self.on_disconnect("notice")
 
 
+        while (time.time() - self.time) < self.limit:
 
+        			try:
+
+        				self.tweet_data.append(data)
+
+        				return True
+
+
+        			except BaseException:
+        				print ('failed ondata')
+        				time.sleep(5)
+        				pass
+
+        saveFile = io.open('raw_tweets.json', 'w', encoding='utf-8')
+        saveFile.write(u'[\n')
+        saveFile.write(','.join(self.tweet_data))
+        saveFile.write(u'\n]')
+        saveFile.close()
+        print("END!")
+        exit()
 
     def on_error(self, status):
 
@@ -45,21 +62,13 @@ class listener(StreamListener):
         print ('bye')
 
 
-#Defines to update user list whenever a time difference of 24 hours is present
-UPDATE_USER_LIST = timedelta(seconds=30)
 
-sm = listener()
-
-p=multiprocessing.Process(target=sm.on_data)
-p.daemon=True
-print("Start the stream")
-p.start()
 
 #Beginning of the specific code
 keyword_list = ['Theresa May'] #track list
 
+start_time=time.time()
 auth = OAuthHandler(ckey, consumer_secret) #OAuth object
 auth.set_access_token(access_token_key, access_token_secret)
-saveFile = io.open('raw_tweets.json', 'w', encoding='utf-8')
-twitterStream = Stream(auth, listener()) #initialize Stream object with a time out limit
+twitterStream = Stream(auth, listener(start_time, time_limit=10)) #initialize Stream object with a time out limit
 twitterStream.filter(track=keyword_list, languages=['en'])  #call the filter method to run the Stream Listener
