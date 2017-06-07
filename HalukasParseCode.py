@@ -7,10 +7,10 @@ creates a .csv file using a Twitter .json file
 the fields have to be set manually
 '''
 
-data_json = io.open('JeremyTheresa_tweets.json', mode='r', encoding='utf-8').read() #reads in the JSON file
+data_json = io.open('JeremyTheresa_tweets_big.json', mode='r', encoding='utf-8').read() #reads in the JSON file
 data_python = json.loads(data_json)
 
-csv_out = io.open('JeremyTheresa_tweets_out_utf8.csv', mode='w', encoding='utf-8') #opens csv file
+csv_out = io.open('JeremyTheresa_tweets_big_out_utf8.csv', mode='w', encoding='utf-8') #opens csv file
 
 
 fields = u'created_at,text,screen_name,followers,friends,rt,fav' #field names
@@ -29,7 +29,7 @@ for line in data_python:
            (line.get('retweet_count')),
            (line.get('favorite_count'))]
     print(str(row))
-    row_joined = (str(row))
+    row_joined = (str(row).strip('[').strip(']'))
     print(row_joined)
     csv_out.write(row_joined)
     csv_out.write(u'\n')
