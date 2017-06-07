@@ -30,7 +30,6 @@ class listener(StreamListener):
         self.tweet_data = []
 
     def on_data(self, data):
-        saveFile = io.open('JeremyTheresa_tweets_big4.json', 'a', encoding='utf-8')
 
 
         while (time.time() - self.time) < self.limit:
@@ -47,7 +46,7 @@ class listener(StreamListener):
         				time.sleep(5)
         				pass
 
-        saveFile = io.open('JeremyTheresa_tweets_big4.json', 'w', encoding='utf-8')
+        saveFile = io.open('JeremyTheresa_tweets_new.json', 'w', encoding='utf-8')
         saveFile.write(u'[\n')
         saveFile.write(','.join(self.tweet_data))
         saveFile.write(u'\n]')
@@ -72,5 +71,5 @@ keyword_list = ['Theresa May', 'Jeremy Corbyn', 'GE2017', 'Labour', 'Tory','Tori
 start_time=time.time()
 auth = OAuthHandler(ckey, consumer_secret) #OAuth object
 auth.set_access_token(access_token_key, access_token_secret)
-twitterStream = Stream(auth, listener(start_time, time_limit=600)) #initialize Stream object with a time out limit
+twitterStream = Stream(auth, listener(start_time, time_limit=10)) #initialize Stream object with a time out limit
 twitterStream.filter(track=keyword_list, languages=['en'])  #call the filter method to run the Stream Listener

@@ -32,19 +32,20 @@ class listener(StreamListener):
 
 
     def on_data(self, data):
-        while (time.time() - self.time) < self.limit:
-            try:
-                q = Queue(connection=Redis())
-                job=q.enqueue_call(func=storage,
-               args=(data,),
-               timeout=30)
-                return True
+            while ((time.time() - self.time)) < self.limit:
 
-            except BaseException:
-                print ('failed ondata')
-                time.sleep(5)
-                pass
+                start=0
+                try:
+                    q = Queue(connection=Redis())
+                    job=q.enqueue_call(func=storage,
+                   args=(data, start),
+                   timeout=30)
+                    return True
 
+                except BaseException:
+                    print ('failed ondata')
+                    time.sleep(5)
+                    pass
 
 
     def on_error(self, status):
