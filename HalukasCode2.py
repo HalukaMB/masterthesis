@@ -32,18 +32,8 @@ class listener(StreamListener):
 
 
     def on_data(self, data):
-        while (time.time() - self.time) < self.limit:
-            try:
-                q = Queue(connection=Redis())
-                job=q.enqueue_call(func=storage,
-               args=(data,),
-               timeout=30)
-                return True
-
-            except BaseException:
-                print ('failed ondata')
-                time.sleep(5)
-                pass
+        print(data)
+        exit()
 
 
 
@@ -64,5 +54,5 @@ keyword_list = ['Theresa May', 'Jeremy Corbyn', 'GE2017', 'Labour', 'Tory','Tori
 start_time=time.time()
 auth = OAuthHandler(ckey, consumer_secret) #OAuth object
 auth.set_access_token(access_token_key, access_token_secret)
-twitterStream = Stream(auth, listener(start_time, time_limit=6)) #initialize Stream object with a time out limit
+twitterStream = Stream(auth, listener(start_time, time_limit=60)) #initialize Stream object with a time out limit
 twitterStream.filter(track=keyword_list, languages=['en'])  #call the filter method to run the Stream Listener

@@ -30,28 +30,9 @@ class listener(StreamListener):
         self.tweet_data = []
 
     def on_data(self, data):
-
-
         while (time.time() - self.time) < self.limit:
 
-        			try:
-
-        				self.tweet_data.append(data)
-
-        				return True
-
-
-        			except BaseException:
-        				print ('failed ondata')
-        				time.sleep(5)
-        				pass
-
-        saveFile = io.open('JeremyTheresa_tweets_new.json', 'w', encoding='utf-8')
-        saveFile.write(u'[\n')
-        saveFile.write(','.join(self.tweet_data))
-        saveFile.write(u'\n]')
-        saveFile.close()
-        print("END!")
+            print(data)
         exit()
 
     def on_error(self, status):
@@ -71,5 +52,6 @@ keyword_list = ['Theresa May', 'Jeremy Corbyn', 'GE2017', 'Labour', 'Tory','Tori
 start_time=time.time()
 auth = OAuthHandler(ckey, consumer_secret) #OAuth object
 auth.set_access_token(access_token_key, access_token_secret)
-twitterStream = Stream(auth, listener(start_time, time_limit=10)) #initialize Stream object with a time out limit
+twitterStream = Stream(auth, listener(start_time, time_limit=6)) #initialize Stream object with a time out limit
 twitterStream.filter(track=keyword_list, languages=['en'])  #call the filter method to run the Stream Listener
+print("!")
