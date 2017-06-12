@@ -4,11 +4,11 @@
 # In[4]:
 
 import pandas as pd
-
+import re
 
 # In[5]:
 
-data = pd.read_csv('bigtweets_2_out_utf8.csv', delimiter=",", quotechar="'")
+data = pd.read_csv('bigtweets_2_out_utf8.csv', delimiter=",", quotechar="'", error_bad_lines=False)
 data.head(5)
 
 
@@ -52,16 +52,34 @@ for cell in (data['text']):
     LeftOrRight="None"
     #for reach word in cell
     for word in (cell.split()):
+        word=re.sub("[^A-Za-z|-]","", word)
+        print(word)
+        if a>10:
+            break
         ratingfactor=0
         #iterates through the lexicon
         if word in rightlist and lr_classifier==0:
+            print(word)
             lr_classifier="right"
+            print(lr_classifier)
+        if word in rightlist and lr_classifier=="right":
+            print(word)
+            lr_classifier="right"
+            print(lr_classifier)
         if word in rightlist and lr_classifier=="left":
+            print(word)
             lr_classifier="None"
-
+            print(lr_classifier)
+        if word in rightlist and lr_classifier=="left":
+            print(word)
+            lr_classifier="left"
+            print(lr_classifier)
         if word in leftlist and lr_classifier==0:
-            lr_classifier="left´´"
+            print(word)
+            lr_classifier="left"
+            print(lr_classifier)
         if word in leftlist and lr_classifier=="right":
+            print(word)
             lr_classifier="None"
 
         for index, row in (new_lex).iterrows():
@@ -87,17 +105,10 @@ for cell in (data['text']):
         cellaverage=(cellrating/wordcount)
     print(cellaverage)
     cellvavlist.append(cellaverage)
-    if lr_classifier=="left":
-        LeftOrRight="left"
-    if lr_classifier=="right":
-        LeftOrRight="right"
-    else:
-        LeftOrRight="None"
-    print(LeftOrRight)
-    leftrightlist.append(LeftOrRight)
+    print(lr_classifier)
+    leftrightlist.append(lr_classifier)
     print(a)
-    if a>10:
-        break
+
 
 extrarow = pd.DataFrame(cellvavlist)
 extrarow2=pd.DataFrame(leftrightlist)
