@@ -7,7 +7,7 @@ creates a .csv file using a Twitter .json file
 the fields have to be set manually
 '''
 
-data_json = io.open('tweets.json', mode='r', encoding='utf-8').read() #reads in the JSON file
+data_json = io.open('/Users/halukamaier-borst/Documents/tweets.json', mode='r', encoding='utf-8').read() #reads in the JSON file
 data_python = json.loads(data_json)
 
 csv_out = io.open('tweets.csv', mode='w', encoding='utf-8') #opens csv file

@@ -32,7 +32,19 @@ class listener(StreamListener):
 
 
     def on_data(self, data):
-        print(data)
+        while (time.time() - self.time) < self.limit:
+            try:
+                self.tweet_data.append(data)
+                return True
+
+            except BaseException:
+                print ('failed ondata')
+                time.sleep(5)
+                pass
+
+        print(u'[\n')
+        print(','.join(self.tweet_data))
+        print(u'\n]')
         exit()
 
 
@@ -54,5 +66,5 @@ keyword_list = ['Theresa May', 'Jeremy Corbyn', 'GE2017', 'Labour', 'Tory','Tori
 start_time=time.time()
 auth = OAuthHandler(ckey, consumer_secret) #OAuth object
 auth.set_access_token(access_token_key, access_token_secret)
-twitterStream = Stream(auth, listener(start_time, time_limit=60)) #initialize Stream object with a time out limit
+twitterStream = Stream(auth, listener(start_time, time_limit=600)) #initialize Stream object with a time out limit
 twitterStream.filter(track=keyword_list, languages=['en'])  #call the filter method to run the Stream Listener
