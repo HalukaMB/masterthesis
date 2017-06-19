@@ -12,13 +12,13 @@ import threading
 import multiprocessing
 from datetime import datetime, timedelta
 from storage import storage
-
+import _credentials
 
 # twitter OAuth
-ckey = 'szIul7ZRYlIoYB3Vp5kyyj42u'
-consumer_secret = 'MG18KBN61TY5adittIJRweMzsjxnhspXSKmhMZuMGweYqlheUR'
-access_token_key = '867428375383728129-cmzkW7Y66ioJcWhOt420O1MBiyWygVU'
-access_token_secret = 'tAdBBmW16j2nTwBMMPT8ZlgqGUmgzR9SRtwbDRkUDiXZL'
+ckey = _credentials.ckey
+consumer_secret = _credentials.consumer_secret
+access_token_key = _credentials.access_token_key
+access_token_secret = _credentials.access_token_secret
 
 
 #Listener Class Override
@@ -66,5 +66,5 @@ keyword_list = ['Theresa May', 'Jeremy Corbyn', 'GE2017', 'Labour', 'Tory','Tori
 start_time=time.time()
 auth = OAuthHandler(ckey, consumer_secret) #OAuth object
 auth.set_access_token(access_token_key, access_token_secret)
-twitterStream = Stream(auth, listener(start_time, time_limit=600)) #initialize Stream object with a time out limit
+twitterStream = Stream(auth, listener(start_time, time_limit=7200)) #initialize Stream object with a time out limit
 twitterStream.filter(track=keyword_list, languages=['en'])  #call the filter method to run the Stream Listener
