@@ -11,7 +11,6 @@ import json
 import threading
 import multiprocessing
 from datetime import datetime, timedelta
-from storage import storage
 import _credentials
 
 # twitter OAuth
@@ -66,5 +65,5 @@ keyword_list = ['Theresa May', 'Jeremy Corbyn', 'GE2017', 'Labour', 'Tory','Tori
 start_time=time.time()
 auth = OAuthHandler(ckey, consumer_secret) #OAuth object
 auth.set_access_token(access_token_key, access_token_secret)
-twitterStream = Stream(auth, listener(start_time, time_limit=7200)) #initialize Stream object with a time out limit
+twitterStream = Stream(auth, listener(start_time, time_limit=20)) #initialize Stream object with a time out limit
 twitterStream.filter(track=keyword_list, languages=['en'])  #call the filter method to run the Stream Listener
